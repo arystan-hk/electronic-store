@@ -3,40 +3,50 @@ package com.store.views;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 public class LoginView {
-    private GridPane root;
+    private VBox root;
     private TextField userField;
     private PasswordField passField;
     private Button loginBtn;
 
     public LoginView() {
-        root = new GridPane();
+        // Фон с градиентом
+        root = new VBox(20);
         root.setAlignment(Pos.CENTER);
-        root.setHgap(10);
-        root.setVgap(10);
-        root.setPadding(new Insets(25, 25, 25, 25));
+        root.setStyle("-fx-background-color: linear-gradient(to bottom right, #2c3e50, #4ca1af);");
 
-        Label sceneTitle = new Label("Electronics Store Login");
-        sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        root.add(sceneTitle, 0, 0, 2, 1);
+        // Карточка логина (белая по центру)
+        VBox card = new VBox(15);
+        card.setMaxWidth(350);
+        card.setPadding(new Insets(40));
+        card.setAlignment(Pos.CENTER);
+        card.setStyle("-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 5);");
 
-        root.add(new Label("Username:"), 0, 1);
-        userField = new TextField();
-        root.add(userField, 1, 1);
+        Label title = new Label("SYSTEM LOGIN");
+        title.setFont(Font.font("Segoe UI", FontWeight.BOLD, 22));
+        title.setTextFill(Color.web("#2c3e50"));
 
-        root.add(new Label("Password:"), 0, 2);
-        passField = new PasswordField();
-        root.add(passField, 1, 2);
+        userField = new TextField(); userField.setPromptText("Username");
+        userField.setStyle("-fx-background-radius: 5; -fx-padding: 10; -fx-border-color: #bdc3c7; -fx-border-radius: 5;");
 
-        loginBtn = new Button("Sign In");
-        root.add(loginBtn, 1, 4);
+        passField = new PasswordField(); passField.setPromptText("Password");
+        passField.setStyle("-fx-background-radius: 5; -fx-padding: 10; -fx-border-color: #bdc3c7; -fx-border-radius: 5;");
+
+        loginBtn = new Button("SIGN IN");
+        loginBtn.setMaxWidth(Double.MAX_VALUE);
+        loginBtn.setStyle("-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 12; -fx-background-radius: 5; -fx-cursor: hand;");
+
+        card.getChildren().addAll(title, userField, passField, loginBtn);
+        root.getChildren().add(card);
     }
 
-    public GridPane getRoot() { return root; }
+    public VBox getRoot() { return root; }
     public String getUsername() { return userField.getText(); }
     public String getPassword() { return passField.getText(); }
     public Button getLoginBtn() { return loginBtn; }

@@ -4,21 +4,29 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class IOHandler {
-    // Сохраняем список пользователей в файл users.bin
-    public static void saveUsers(ArrayList<? extends Object> users, String filename) {
+    // Универсальный метод чтения
+    public static <T> ArrayList<T> readList(String filename) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {
+            return (ArrayList<T>) ois.readObject();
+        } catch (Exception e) {
+            return new ArrayList<>(); // Возвращаем пустой список, если файла нет
+        }
+    }
+
+    // Универсальный метод записи
+    public static <T> void saveList(ArrayList<T> list, String filename) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
-            oos.writeObject(users);
+            oos.writeObject(list);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    // Читаем список пользователей
-    public static ArrayList<? extends Object> readUsers(String filename) {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {
-            return (ArrayList<? extends Object>) ois.readObject();
-        } catch (Exception e) {
-            return new ArrayList<>(); // Если файла нет, возвращаем пустой список
+    public static void saveBill(String content, String filename) {
+        try (PrintWriter out = new PrintWriter(filename)) {
+            out.println(content);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }
